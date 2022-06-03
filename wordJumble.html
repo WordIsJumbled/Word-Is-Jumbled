@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Word Is Jumbled!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- <link rel="stylesheet" href="styles/debug.css"> -->
+    <link rel="stylesheet" href="styles/wordJumble.css">
+    
+    <!-- CONNECTION TO FIREBASE --> 
+     <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+      import {getStorage,ref, uploadString} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-storage.js";
+      import { 
+        doc,
+        getFirestore,
+        setDoc,
+        collection,
+        query,
+        getDocs,
+        getDoc
+      } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAq8RnSFiXLSKUFodbGV1z6SIlzVZs-DpY",
+        authDomain: "sample-f3e73.firebaseapp.com",
+        projectId: "sample-f3e73",
+        storageBucket: "sample-f3e73.appspot.com",
+        messagingSenderId: "475658614938",
+        appId: "1:475658614938:web:a98b40eab30ca652268723"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const storage = getStorage();
+      const firestore = getFirestore();
+      const storageRef = ref(storage);
+
+      // const imageRef = ref(storage,'images/sample.txt');
+      // const rawString = 'This is my messages.';
+      // uploadString(imageRef, rawString).then (snapshot =>{
+      //   console.log("succesful");
+      // })
+      //FIRESTORE
+      // const docRef = doc(firestore,'user/8');
+      // setDoc(docRef, {
+      //   id: 2,
+      //   name: 'Joli',
+      //   age: 16,
+      //   favoriteGames: ['Roblox', 'Minecraft'],
+      //   subjects: [
+      //     {
+      //       name: 'English',
+      //       grade: 100
+      //     },
+      //     {
+      //       name: 'Math',
+      //       grade: 100
+      //     },
+      //   ]  
+      // });
+      // const res = await getDoc(docRef);
+      const colRef = collection(firestore, 'user');
+      var user = [];
+      var lastName = " Soriano";
+      getDocs(colRef)
+      .then((snapshot) => {
+       
+        snapshot.docs.forEach((doc) =>{
+          user.push({...doc.data()});
+        })
+        console.log(user[0].name + lastName);
+      })
+      
+    </script>
+
+  </head>
+  <body>
+    <!-- Start box section -->
+    <section class="background_container">
+      <div class="startbox_container">
+        <div class="title_container">
+          <h1 id = "title">WORD IS JUMBLED!</h1>
+        </div>
+        <div class="start_container is-justify-content-center is-align-content-center">
+          <button id = "start_jumble" onclick = "hideStartBox()">START</button>
+        </div>
+      </div>
+      <!-- Timer Section -->
+      <section class = "timer_section">
+        <div class = "timer_container">
+          <div id = "chooseTimer_container">
+            <p>CHOOSE:</p>
+          </div>
+          <div class = "timebutton_container">
+            <button id = "five-mins" onclick = "fiveMinsButton()" type = "submit">5 minutes</button>
+            <button id = "ten-mins" onclick = "tenMinsButton() ">10 minutes</button>
+            <button id = "fifteen-mins" onclick = "fifteenMinsButton()">15 minutes</button>
+          </div>
+        </div>
+      </section>
+    </section>  
+    <!--Game section -->
+    <section class = "game_section">
+      <div class = "alert_container">
+        <p id = "GuessTheWord">
+          GUESS THE WORD!
+        </p>
+        <p id = "alert">
+          
+        </p>
+      </div>
+        <div class = "timer_container">
+            <div id = "timer">
+
+            </div>
+        </div>
+        <div class="answer_container">
+          <div id = "answer">
+            <div id = "ans-a"></div>
+            <div id = "ans-b"></div>
+            <div id = "ans-c"></div>
+            <div id = "ans-d"></div>
+            <div id = "ans-e"></div>
+            <div id = "ans-f"></div>
+          </div>
+        </div>
+        
+        <div class="challenge_container">
+          <div id = "challenge">
+            <div id = "chg-a"></div>
+            <div id = "chg-b"></div>
+            <div id = "chg-c"></div>
+            <div id = "chg-d"></div>
+            <div id = "chg-e"></div>
+            <div id = "chg-f"></div>
+          </div>
+        </div>
+        <div class = "score_container">
+          <div id = "score">
+            <p>SCORE:</p>
+            <p id = "numOfScore">0</p>
+          </div>
+          <div id = "numberOfGuess">
+            <p>NUMBER OF GUESS:</p>
+            <p id = "numOfGuess">0 </p>
+          </div>
+        </div>
+    </section>
+    <div class = "timeIsUp_container">
+      <div id = "timeIsUp">
+        TIME IS UP!
+      </div>
+      <div id = "home_container">
+        <button id = "homeBtn" onclick = "window.location.reload()"> HOME </button>
+      </div>
+    </div>
+    <script src = "wordJumble.js"></script>
+  </body>
+</html>
